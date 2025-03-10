@@ -32,6 +32,7 @@ return {
                 -- You might wonder what this does; it fixes it
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.abort(),
+                ["<Esc>"] = cmp.mapping.abort(),
                 ["<CR>"] = cmp.mapping.confirm({ select = true }),
                 ["<Up>"] = cmp.mapping.select_prev_item(),
                 ["<Down>"] = cmp.mapping.select_next_item(),
