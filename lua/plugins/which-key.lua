@@ -10,6 +10,8 @@ return {
             { "<leader>f", group = "file/find" },
             { "<leader>s", group = "search" },
             { "<leader>q", group = "quit" },
+            { "<leader>c", group = "code" },
+            { "<leader>cg", group = "go to" },
 	    }
 	}
     },
