@@ -1,8 +1,3 @@
--- TODO
---
--- Suggestions should work with LSP, file paths and buffer (e.g. in a txt file)
--- LSP suggestions should include docs
-
 return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -25,8 +20,8 @@ return {
                 -- {
                 --    "keys": "ctrl+space",
                 --    "command": {
-                    --    "action": "sendInput",
-                    --    "input": "\u001b[32;5u]"
+                --    "action": "sendInput",
+                --    "input": "\u001b[32;5u]"
                 --    }
                 -- }
                 -- You might wonder what this does; it fixes it

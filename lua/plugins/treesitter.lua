@@ -1,6 +1,3 @@
--- Might be a good idea to install parsers manually at first
--- e.g. :TSInstall markdown, c_sharp
-
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",

@@ -34,8 +34,8 @@ map("i", ";", ";<c-g>u")
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- better indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+map("v", "<S-Tab>", "<gv")
+map("v", "<Tab>", ">gv")
 
 -- lazy
 map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
@@ -51,4 +51,4 @@ map("n", "<leader>fe", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 
 -- fzf-lua (search files)
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
-map("n", "<leader>fs", "<cmd>Fzflua live-grep<cr>", { desc = "Search" })
+map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
