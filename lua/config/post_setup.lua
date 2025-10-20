@@ -37,3 +37,12 @@ vim.api.nvim_create_user_command("ToggleInlineDiagnostic", function()
 	local new_virtual_text = not vim.diagnostic.config().virtual_text
 	vim.diagnostic.config({ virtual_text = new_virtual_text })
 end, {})
+
+-- Command to toggle spellchecker
+-- This already exists in neovim, just writing it here because I'll forget it
+-- :set spell!
+
+-- Automatically enable spell checking
+-- Hover over a squigly line and press z= to see fix suggestions
+vim.opt_local.spell = true
+vim.opt_local.spelllang = "en_gb"
