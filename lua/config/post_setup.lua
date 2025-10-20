@@ -22,5 +22,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		nmap("<leader>cgi", vim.lsp.buf.implementation, "Go to Implementation")
 		nmap("<leader>cgr", vim.lsp.buf.references, "Go to References")
 		nmap("<leader>cD", vim.lsp.buf.document_symbol, "Show symbol documentation")
+
+		-- This enables inline diagnostic text and sets its colour to whatever the gutter icon uses
+		vim.diagnostic.config({ virtual_text = true })
+		vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { link = "DiagnosticSignError" })
+		vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { link = "DiagnosticSignWarn" })
+		vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { link = "DiagnosticSignInfo" })
+		vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { link = "DiagnosticSignHint" })
 	end,
 })
+
+-- Command to toggle inline diagnostics
+vim.api.nvim_create_user_command("ToggleInlineDiagnostic", function()
+	local new_virtual_text = not vim.diagnostic.config().virtual_text
+	vim.diagnostic.config({ virtual_text = new_virtual_text })
+end, {})
