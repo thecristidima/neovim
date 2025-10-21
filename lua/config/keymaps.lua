@@ -6,7 +6,6 @@ map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr =
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
-
 -- Resize window using <ctrl> arrow keys
 map("n", "<C-Down>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
 map("n", "<C-Up>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
@@ -21,9 +20,18 @@ map("i", "<A-Up>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 map("v", "<A-Down>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
 map("v", "<A-Up>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
--- Ctrl+Backspace
-map("i", "<C-BS>", "<C-w>", { desc = "Delete Previous Word" })
-map("i", "<C-h>", "<C-w>", { desc = "Delete Previous Word" })
+-- Ctrl+Backspace to delete word backwards
+map("i", "<C-BS>", "<C-w>", { desc = "Delete Word Backwards" })
+map("i", "<C-h>", "<C-w>", { desc = "Delete Word Backwards" })
+
+-- Ctrl+Delete to delete word forwards
+map("i", "<C-Del>", "<space><esc>ce", { desc = "Delete Word Forward" })
+
+-- Ctrl+X to cut current line
+map("i", "<C-x>", "<C-o>dd", { desc = "Cut current line" })
+
+-- Undo in insert mode
+map("i", "<C-z>", "<C-o>u", { desc = "Undo" })
 
 -- Add undo break-points
 map("i", ",", ",<c-g>u")
