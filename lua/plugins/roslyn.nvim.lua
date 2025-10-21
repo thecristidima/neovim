@@ -1,3 +1,4 @@
 return {
-    "seblyng/roslyn.nvim",
+	"seblyng/roslyn.nvim",
+	ft = { "cs" },
 }
