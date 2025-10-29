@@ -14,7 +14,7 @@ return {
 				},
 			})
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "jsonls", "lemminx", "yamlls", "roslyn" },
+				ensure_installed = { "lua_ls", "jsonls", "lemminx", "yamlls" },
 			})
 		end,
 	},
