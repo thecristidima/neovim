@@ -6,13 +6,17 @@ map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr =
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
--- Resize window using <ctrl> arrow keys
-map("n", "<C-Down>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-map("n", "<C-Up>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-map("n", "<C-Right>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-map("n", "<C-Left>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+-- Ctrl+left/right
+map({ "n", "v", "o" }, "<C-Left>", "b", { silent = true })
+map({ "n", "v", "o" }, "<C-Right", "w", { silent = true })
 
--- Move lines (wip)
+-- Resize window using ctrl+meta+arrow keys
+map("n", "<C-M-Down>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+map("n", "<C-M-Up>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+map("n", "<C-M-Right>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+map("n", "<C-M-Left>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+
+-- Move lines
 map("n", "<A-Down>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
 map("n", "<A-Up>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
 map("i", "<A-Down>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
@@ -38,7 +42,7 @@ map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
 map("i", ";", ";<c-g>u")
 
--- <ctrl>S to save file
+-- Ctrl+S to save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- better indenting
