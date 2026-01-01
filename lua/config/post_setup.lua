@@ -46,3 +46,7 @@ end, {})
 -- Hover over a squigly line and press z= to see fix suggestions
 vim.opt_local.spell = true
 vim.opt_local.spelllang = "en_gb"
+
+
+-- Use system clipboard
+vim.opt.clipboard = "unnamedplus"
