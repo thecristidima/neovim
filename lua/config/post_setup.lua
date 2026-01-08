@@ -4,6 +4,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
+vim.api.nvim_create_user_command("WriteNoFormat", function()
+    vim.cmd("noautocmd write")
+end, {})
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)
         local nmap = function(keys, func, desc)
@@ -46,7 +50,6 @@ end, {})
 -- Hover over a squigly line and press z= to see fix suggestions
 vim.opt_local.spell = true
 vim.opt_local.spelllang = "en_gb"
-
 
 -- Use system clipboard
 vim.opt.clipboard = "unnamedplus"
