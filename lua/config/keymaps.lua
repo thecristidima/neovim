@@ -45,6 +45,9 @@ map("i", ";", ";<c-g>u")
 -- Ctrl+S to save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
+-- Ctrl+Alt+S to save without formatting (see post_setup.lua)
+map({ "i", "x", "n", "s" }, "<C-M-s>", "<cmd>WriteNoFormat<cr><esc>", { desc = "Save without formatting"})
+
 -- better indenting
 map("v", "<S-Tab>", "<gv")
 map("v", "<Tab>", ">gv")
