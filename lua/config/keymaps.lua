@@ -34,6 +34,12 @@ map("i", "<C-Del>", "<space><esc>ce", { desc = "Delete Word Forward" })
 -- Ctrl+X to cut current line
 map("i", "<C-x>", "<C-o>dd", { desc = "Cut current line" })
 
+-- Ctrl+V to paste
+-- Paste will place cursor before last character; the l moves it one place to the right to behave as expected
+map("i", "<C-v>", "<C-r>+", { desc = "Paste" })
+map("n", "<C-v>", "pl", { desc = "Paste" })
+map("v", "<C-v>", '"_dP`]l', { desc = "Paste over selected text" }) -- This one is fucking nuts
+
 -- Undo in insert mode
 map("i", "<C-z>", "<C-o>u", { desc = "Undo" })
 
@@ -46,7 +52,7 @@ map("i", ";", ";<c-g>u")
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- Ctrl+Alt+S to save without formatting (see post_setup.lua)
-map({ "i", "x", "n", "s" }, "<C-M-s>", "<cmd>WriteNoFormat<cr><esc>", { desc = "Save without formatting"})
+map({ "i", "x", "n", "s" }, "<C-M-s>", "<cmd>WriteNoFormat<cr><esc>", { desc = "Save without formatting" })
 
 -- better indenting
 map("v", "<S-Tab>", "<gv")
