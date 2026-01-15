@@ -15,7 +15,7 @@ return {
                 lualine_y = {
                     {
                         function()
-                            local lsps = vim.lsp.get_active_clients({ bufnr = vim.fn.bufnr() })
+                            local lsps = vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })
                             local icon = require("nvim-web-devicons").get_icon_by_filetype(
                                 vim.api.nvim_buf_get_option(0, "filetype")
                             )
