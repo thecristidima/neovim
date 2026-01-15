@@ -34,6 +34,10 @@ map("i", "<C-Del>", "<space><esc>ce", { desc = "Delete Word Forward" })
 -- Ctrl+X to cut current line
 map("i", "<C-x>", "<C-o>dd", { desc = "Cut current line" })
 
+-- Ctrl+C to copy selection
+map({ "n", "i" }, "<C-c>", "yy", { desc = "Copy line" })
+map("v", "<C-c>", "y", { desc = "Copy selection" })
+
 -- Ctrl+V to paste
 -- Paste will place cursor before last character; the l moves it one place to the right to behave as expected
 map("i", "<C-v>", "<C-r>+", { desc = "Paste" })
