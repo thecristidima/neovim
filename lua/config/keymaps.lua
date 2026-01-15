@@ -28,8 +28,8 @@ map("v", "<A-Up>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", 
 map("i", "<C-BS>", "<C-w>", { desc = "Delete Word Backwards" })
 map("i", "<C-h>", "<C-w>", { desc = "Delete Word Backwards" })
 
--- Ctrl+Delete to delete word forwards
-map("i", "<C-Del>", "<space><esc>ce", { desc = "Delete Word Forward" })
+-- Ctrl+Delete to delete word forwards (without copying)
+map("i", "<C-Del>", '<C-o>"_de', { desc = "Delete Word Forward" })
 
 -- Ctrl+X to cut current line
 map("i", "<C-x>", "<C-o>dd", { desc = "Cut current line" })
