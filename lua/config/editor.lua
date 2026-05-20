@@ -1,5 +1,5 @@
 -- Colour scheme
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("catppuccin-mocha")
 
 -- Tab is 4 spaces, indenting is one tab
 vim.o.tabstop = 4
