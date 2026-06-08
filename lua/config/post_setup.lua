@@ -37,6 +37,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
+-- Briefly highlight yanked text so you can see what got copied
+vim.api.nvim_create_autocmd("TextYankPost", {
+    callback = function()
+        vim.hl.on_yank()
+    end,
+})
+
+-- Reload files that changed on disk (e.g. after a git checkout in lazygit).
+-- autoread is on by default; the checktime triggers the actual re-read.
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+    command = "checktime",
+})
+
 -- Command to toggle inline diagnostics
 vim.api.nvim_create_user_command("ToggleInlineDiagnostic", function()
     local new_virtual_text = not vim.diagnostic.config().virtual_text

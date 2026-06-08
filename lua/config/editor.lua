@@ -40,3 +40,6 @@ vim.o.updatetime = 250
 
 -- Prompt to save instead of erroring when quitting with unsaved changes
 vim.o.confirm = true
+
+-- Rounded borders on floating windows (LSP hover, diagnostics float, etc.)
+vim.o.winborder = "rounded"

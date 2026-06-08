@@ -89,6 +89,18 @@ map("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete buffe
 -- show the full diagnostic message for the current line in a floating window
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 
+-- project-wide diagnostics list (snacks picker)
+map("n", "<leader>cx", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics (project)" })
+
+-- toggle comment on the current line (normal) or selection (visual)
+-- wraps the built-in gcc / gc so it's discoverable under <leader>c
+map("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle comment" })
+map("x", "<leader>cc", "gc", { remap = true, desc = "Toggle comment" })
+
+-- jump between uses of the symbol under the cursor (snacks words)
+map("n", "]]", function() Snacks.words.jump(vim.v.count1) end, { desc = "Next reference" })
+map("n", "[[", function() Snacks.words.jump(-vim.v.count1) end, { desc = "Prev reference" })
+
 -- view noice messages (full command output / errors that scrolled past)
 map("n", "<leader>Nn", "<cmd>Noice pick<cr>", { desc = "Message history" })
 map("n", "<leader>Nl", "<cmd>Noice last<cr>", { desc = "Last message" })
