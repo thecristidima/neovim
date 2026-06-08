@@ -77,6 +77,14 @@ map("n", "<leader>fe", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 -- fzf-lua (search files)
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
 map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
+map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find buffers" })
+map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find keymaps" })
+
+-- buffer commands
+-- <leader>bb opens the buffer list (snacks picker); press Ctrl-x or dd to close the highlighted buffer
+map("n", "<leader>bb", function() Snacks.picker.buffers() end, { desc = "List buffers" })
+-- close the current buffer without disturbing the window layout (snacks)
+map("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete buffer" })
 
 -- floating terminal (snacks)
 map("n", "<leader>t", function() Snacks.terminal.toggle() end, { desc = "Toggle terminal" })

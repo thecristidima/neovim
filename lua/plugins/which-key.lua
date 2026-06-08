@@ -8,6 +8,7 @@ return {
                 -- Define groups and mappings here
                 -- Take a look at https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/plugins/editor.lua#L49
                 { "<leader>f",  group = "file/find" },
+                { "<leader>b",  group = "buffer" },
                 { "<leader>s",  group = "search" },
                 { "<leader>q",  group = "quit" },
                 { "<leader>c",  group = "code" },

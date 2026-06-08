@@ -5,6 +5,9 @@ return {
     opts = {
         indent = { enabled = true },
         scroll = { enabled = true },
+        -- Native Lua picker - used for the buffer list, since fzf-lua's buffers
+        -- picker won't navigate on this setup (fzf-lua still handles files/grep)
+        picker = { enabled = true },
         terminal = {
             -- Open the terminal as a centered floating popup (like the fzf-lua finder)
             -- instead of the default bottom split
