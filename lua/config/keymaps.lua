@@ -77,3 +77,6 @@ map("n", "<leader>fe", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 -- fzf-lua (search files)
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
 map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
+
+-- floating terminal (snacks)
+map("n", "<leader>t", function() Snacks.terminal.toggle() end, { desc = "Toggle terminal" })
