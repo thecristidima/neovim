@@ -86,6 +86,13 @@ map("n", "<leader>bb", function() Snacks.picker.buffers() end, { desc = "List bu
 -- close the current buffer without disturbing the window layout (snacks)
 map("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete buffer" })
 
+-- show the full diagnostic message for the current line in a floating window
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+
+-- view noice messages (full command output / errors that scrolled past)
+map("n", "<leader>Nn", "<cmd>Noice pick<cr>", { desc = "Message history" })
+map("n", "<leader>Nl", "<cmd>Noice last<cr>", { desc = "Last message" })
+
 -- floating terminal (snacks)
 map("n", "<leader>t", function() Snacks.terminal.toggle() end, { desc = "Toggle terminal" })
 
