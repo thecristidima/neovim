@@ -80,3 +80,6 @@ map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all file
 
 -- floating terminal (snacks)
 map("n", "<leader>t", function() Snacks.terminal.toggle() end, { desc = "Toggle terminal" })
+
+-- lazygit in a floating popup (snacks)
+map("n", "<leader>G", function() Snacks.lazygit() end, { desc = "Open lazy git" })

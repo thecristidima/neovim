@@ -17,3 +17,26 @@ vim.o.listchars = "tab:>-,lead:-,trail:•"
 
 -- Colour column
 vim.o.colorcolumn = "140"
+
+-- Case-insensitive search, unless the search contains an uppercase letter
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+-- Persistent undo - undo history survives closing and reopening a file
+vim.o.undofile = true
+
+-- Highlight the line the cursor is on
+vim.o.cursorline = true
+
+-- Always show the sign column so text doesn't shift when signs appear
+vim.o.signcolumn = "yes"
+
+-- Open new splits to the right and below (more intuitive)
+vim.o.splitright = true
+vim.o.splitbelow = true
+
+-- Faster response for things like diagnostics and which-key (default is 4000)
+vim.o.updatetime = 250
+
+-- Prompt to save instead of erroring when quitting with unsaved changes
+vim.o.confirm = true
