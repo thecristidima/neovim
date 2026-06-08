@@ -32,4 +32,17 @@ require("lazy").setup({
     install = { colorscheme = { "catppuccin-mocha" } },
     -- automatically check for plugin updates
     checker = { enabled = false },
+    performance = {
+        rtp = {
+            -- Disable unused built-in runtime plugins to load fewer files at startup.
+            -- netrw is kept on purpose (used for gx); matchit and spellfile also kept.
+            disabled_plugins = {
+                "tohtml",
+                "tutor",
+                "gzip",
+                "zipPlugin",
+                "tarPlugin",
+            },
+        },
+    },
 })
