@@ -2,14 +2,15 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
+    main = "nvim-treesitter.configs", -- send opts to the setup() that actually reads them
     opts = {
         auto_install = false,
         sync_install = false,
 
         highlight = {
             enable = true,
-            indent = { enable = true }
         },
+        indent = { enable = true },
 
         additional_vim_regex_highlighting = false,
 

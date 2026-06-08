@@ -17,7 +17,7 @@ return {
                         function()
                             local lsps = vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })
                             local icon = require("nvim-web-devicons").get_icon_by_filetype(
-                                vim.api.nvim_buf_get_option(0, "filetype")
+                                vim.bo.filetype
                             )
                             if lsps and #lsps > 0 then
                                 local names = {}
@@ -34,7 +34,7 @@ return {
                         end,
                         color = function()
                             local _, color = require("nvim-web-devicons").get_icon_cterm_color_by_filetype(
-                                vim.api.nvim_buf_get_option(0, "filetype")
+                                vim.bo.filetype
                             )
                             return { fg = color }
                         end,

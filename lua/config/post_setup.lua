@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
             if desc then
                 desc = "LSP: " .. desc
             end
-            vim.keymap.set("n", keys, func, { buffer = buff, desc = desc })
+            vim.keymap.set("n", keys, func, { buffer = ev.buf, desc = desc })
         end
 
         nmap("<leader>cr", vim.lsp.buf.rename, "Rename Symbol")
@@ -46,10 +46,29 @@ end, {})
 -- This already exists in neovim, just writing it here because I'll forget it
 -- :set spell!
 
+
+-- Another one I keep forgetting
+-- After searching, you can clear the highlights with :noh
+
 -- Automatically enable spell checking
 -- Hover over a squigly line and press z= to see fix suggestions
-vim.opt_local.spell = true
-vim.opt_local.spelllang = "en_gb"
+vim.opt.spell = true
+vim.opt.spelllang = "en_gb"
 
 -- Use system clipboard
+-- TODO Should this be in editor.lua?
 vim.opt.clipboard = "unnamedplus"
+
+-- On Windows use PowerShell Core (pwsh) as the shell, falling back to
+-- Windows PowerShell if pwsh isn't installed.
+-- Recipe taken from `:help shell-powershell` - the extra shell* options are
+-- required so that :terminal, :!cmd, redirection and exit codes work correctly.
+if IS_WINDOWS then
+    vim.o.shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell"
+    vim.o.shellcmdflag =
+        [[-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;$PSDefaultParameterValues['Out-File:Encoding']='utf8';Remove-Alias -Force -ErrorAction SilentlyContinue tee;]]
+    vim.o.shellredir = [[2>&1 | %{ "$_" } | Out-File %s; exit $LastExitCode]]
+    vim.o.shellpipe = [[2>&1 | %{ "$_" } | tee %s; exit $LastExitCode]]
+    vim.o.shellquote = ""
+    vim.o.shellxquote = ""
+end

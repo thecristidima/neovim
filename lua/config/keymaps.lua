@@ -8,7 +8,7 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = tru
 
 -- Ctrl+left/right
 map({ "n", "v", "o" }, "<C-Left>", "b", { silent = true })
-map({ "n", "v", "o" }, "<C-Right", "w", { silent = true })
+map({ "n", "v", "o" }, "<C-Right>", "w", { silent = true })
 
 -- Resize window using ctrl+meta+arrow keys
 map("n", "<C-M-Down>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
