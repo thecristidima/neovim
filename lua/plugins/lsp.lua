@@ -5,7 +5,7 @@ return {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
         },
-        event = { "BufReadPre", "BufNewFile" },
+        ft = { "lua", "json", "jsonc", "xml", "xaml", "yaml", "yml" },
         config = function()
             require("mason").setup({
                 registries = {

@@ -2,6 +2,11 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
+        delay = 0,
+        triggers = {
+            { "<auto>", mode = "nxso" },
+            { "<leader>", mode = { "n", "v" } },
+        },
         spec = {
             {
                 mode = { "n", "v" },
@@ -13,7 +18,16 @@ return {
                 { "<leader>q",  group = "quit" },
                 { "<leader>c",  group = "code" },
                 { "<leader>cg", group = "go to" },
+                { "<leader>cR", group = "Roslyn" },
+                { "<leader>cs", group = "symbols" },
                 { "<leader>ct", group = "test" },
+                {
+                    "<leader><leader>",
+                    function()
+                        require("which-key.state").stop()
+                    end,
+                    desc = "Close which-key",
+                },
             }
         }
     },

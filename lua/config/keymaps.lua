@@ -16,6 +16,18 @@ map("n", "<C-M-Up>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
 map("n", "<C-M-Right>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
 map("n", "<C-M-Left>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
+if vim.g.neovide then
+    local function change_scale(delta)
+        local scale = vim.g.neovide_scale_factor or 1
+        vim.g.neovide_scale_factor = math.max(0.5, math.min(2, scale + delta))
+    end
+
+    map({ "n", "i", "x" }, "<C-=>", function() change_scale(0.1) end, { desc = "Zoom In" })
+    map({ "n", "i", "x" }, "<C-+>", function() change_scale(0.1) end, { desc = "Zoom In" })
+    map({ "n", "i", "x" }, "<C-->", function() change_scale(-0.1) end, { desc = "Zoom Out" })
+    map({ "n", "i", "x" }, "<C-0>", function() vim.g.neovide_scale_factor = 1 end, { desc = "Reset Zoom" })
+end
+
 -- Move lines
 map("n", "<A-Down>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
 map("n", "<A-Up>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
@@ -74,7 +86,67 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 -- neo-tree
 map("n", "<leader>fe", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 
--- fzf-lua (search files)
+local function ctrl_p_file_finder(opts, ctx)
+    local filter = ctx.filter:clone()
+    local search = vim.trim(filter.search or "")
+    local has_glob = search:find("*", 1, true)
+        or search:find("?", 1, true)
+        or search:find("[", 1, true)
+        or search:find("]", 1, true)
+        or search:find("{", 1, true)
+        or search:find("}", 1, true)
+    local has_path = search:find("/", 1, true) or search:find("\\", 1, true)
+    local has_extra_args = search:find("%s%-%-%s")
+
+    if search ~= "" and not has_glob and not has_path and not has_extra_args then
+        filter.search = "*" .. search .. "*"
+    end
+
+    local file_ctx = ctx:clone(opts)
+    file_ctx.filter = filter
+    return require("snacks.picker.source.files").files(opts, file_ctx)
+end
+
+-- Ctrl+P quick open: files plus workspace symbols
+map({ "n", "i", "x" }, "<C-p>", function()
+    Snacks.picker({
+        title = "Search files and symbols",
+        live = true,
+        supports_live = true,
+        workspace = true,
+        multi = {
+            {
+                source = "files",
+                cmd = "rg",
+                finder = ctrl_p_file_finder,
+            },
+            "lsp_workspace_symbols",
+        },
+        filter = {
+            transform = function(_, filter)
+                filter.pattern = Snacks.picker.util.parse(filter.search)
+            end,
+        },
+        formatters = {
+            file = {
+                filename_first = true,
+                min_width = 50,
+            },
+        },
+        layout = {
+            preset = "vscode",
+            layout = {
+                width = 0.8,
+                min_width = 100,
+                height = 0.55,
+            },
+        },
+        matcher = {
+            cwd_bonus = true,
+            frecency = true,
+        },
+    })
+end, { desc = "Search files and symbols" })
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
 map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
 map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find buffers" })
@@ -91,6 +163,12 @@ map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 
 -- project-wide diagnostics list (snacks picker)
 map("n", "<leader>cx", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics (project)" })
+
+-- LSP symbol/call pickers
+map("n", "<leader>csd", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "Document symbols" })
+map("n", "<leader>csw", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Workspace symbols" })
+map("n", "<leader>csi", "<cmd>FzfLua lsp_incoming_calls<cr>", { desc = "Incoming calls" })
+map("n", "<leader>cso", "<cmd>FzfLua lsp_outgoing_calls<cr>", { desc = "Outgoing calls" })
 
 -- toggle comment on the current line (normal) or selection (visual)
 -- wraps the built-in gcc / gc so it's discoverable under <leader>c

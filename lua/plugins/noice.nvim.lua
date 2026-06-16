@@ -1,7 +1,15 @@
 return {
     "folke/noice.nvim",
     event = "VeryLazy",
-    opts = {}, -- don't remove, will break plugin
+    opts = {
+        lsp = {
+            -- Roslyn can emit a lot of progress events while scanning large C# solutions.
+            -- Hiding them avoids the bottom-right progress popup and the redraw churn it causes.
+            progress = {
+                enabled = false,
+            },
+        },
+    },
     dependencies = {
         -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
         "MunifTanjim/nui.nvim",

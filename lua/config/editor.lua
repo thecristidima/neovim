@@ -28,6 +28,10 @@ vim.o.smartcase = true
 -- Persistent undo - undo history survives closing and reopening a file
 vim.o.undofile = true
 
+-- Avoid swapfile checks/writes on every opened buffer. Persistent undo remains
+-- enabled above, so normal edit history still survives restarts.
+vim.o.swapfile = false
+
 -- Highlight the line the cursor is on
 vim.o.cursorline = true
 
@@ -43,6 +47,11 @@ vim.o.updatetime = 250
 
 -- Prompt to save instead of erroring when quitting with unsaved changes
 vim.o.confirm = true
+
+-- Keep GUI clients like Neovide silent: no audible bell and no visual flash.
+vim.o.belloff = "all"
+vim.o.errorbells = false
+vim.o.visualbell = false
 
 -- Rounded borders on floating windows (LSP hover, diagnostics float, etc.)
 vim.o.winborder = "rounded"

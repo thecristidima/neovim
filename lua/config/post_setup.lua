@@ -1,6 +1,18 @@
 vim.api.nvim_create_autocmd("BufWritePre", {
-    callback = function()
-        vim.cmd("lua vim.lsp.buf.format()")
+    callback = function(ev)
+        for _, client in ipairs(vim.lsp.get_clients({ bufnr = ev.buf })) do
+            if client:supports_method("textDocument/formatting", ev.buf) then
+                vim.lsp.buf.format({
+                    bufnr = ev.buf,
+                    id = client.id,
+                    formatting_options = {
+                        insertFinalNewline = true,
+                        trimFinalNewlines = false,
+                    },
+                })
+                return
+            end
+        end
     end,
 })
 
@@ -26,6 +38,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("<leader>cgi", vim.lsp.buf.implementation, "Go to Implementation")
         nmap("<leader>cgr", vim.lsp.buf.references, "Go to References")
         nmap("<leader>cD", vim.lsp.buf.document_symbol, "Show symbol documentation")
+        nmap("<S-F12>", vim.lsp.buf.references, "Find All References")
+        nmap("<C-F12>", vim.lsp.buf.implementation, "Go to Implementation")
+
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if client and client.name == "roslyn" then
+            nmap("<leader>cRt", "<cmd>Roslyn target<cr>", "Roslyn: Select Solution")
+            nmap("<leader>cRr", function()
+                vim.cmd.lsp("restart", "roslyn")
+            end, "Roslyn: Restart")
+            nmap("<leader>cRs", function()
+                local solution = vim.g.roslyn_nvim_selected_solution
+
+                if solution then
+                    vim.notify(vim.fn.fnamemodify(solution, ":."), vim.log.levels.INFO, { title = "Roslyn solution" })
+                else
+                    vim.notify("No Roslyn solution selected", vim.log.levels.WARN, { title = "Roslyn solution" })
+                end
+            end, "Roslyn: Show Solution")
+        end
 
         -- Show diagnostics as inline text to the right of the line, but not as
         -- E/W/I/H letters in the sign column (keeps the gutter clean for git signs)
@@ -34,6 +65,41 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { link = "DiagnosticSignWarn" })
         vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { link = "DiagnosticSignInfo" })
         vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { link = "DiagnosticSignHint" })
+    end,
+})
+
+vim.cmd([[
+    anoremenu PopUp.Go\ to\ implementation <Cmd>lua vim.lsp.buf.implementation()<CR>
+    amenu disable PopUp.Go\ to\ implementation
+]])
+
+vim.api.nvim_create_autocmd("MenuPopup", {
+    group = vim.api.nvim_create_augroup("user.popupmenu", { clear = true }),
+    callback = function()
+        local implementation_method = "textDocument/implementation"
+        local supports_implementation = false
+
+        for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+            if client:supports_method(implementation_method, 0) then
+                supports_implementation = true
+                break
+            end
+        end
+
+        if supports_implementation then
+            vim.cmd([[anoremenu enable PopUp.Go\ to\ implementation]])
+        else
+            vim.cmd([[amenu disable PopUp.Go\ to\ implementation]])
+        end
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    group = vim.api.nvim_create_augroup("user.quickfix", { clear = true }),
+    callback = function(ev)
+        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = ev.buf, silent = true, desc = "Close quickfix" })
+        vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", { buffer = ev.buf, silent = true, desc = "Close quickfix" })
     end,
 })
 
