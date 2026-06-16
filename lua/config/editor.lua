@@ -1,6 +1,9 @@
 -- Colour scheme
 vim.cmd.colorscheme("catppuccin-mocha")
 
+-- Font
+vim.o.guifont = "Cascadia Code NF:h12"
+
 -- Tab is 4 spaces, indenting is one tab
 vim.o.tabstop = 4
 vim.o.softtabstop = 4

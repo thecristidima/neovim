@@ -13,6 +13,7 @@ return {
                 { "<leader>q",  group = "quit" },
                 { "<leader>c",  group = "code" },
                 { "<leader>cg", group = "go to" },
+                { "<leader>ct", group = "test" },
             }
         }
     },
