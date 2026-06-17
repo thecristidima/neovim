@@ -134,7 +134,7 @@ end, {})
 
 
 -- Another one I keep forgetting
--- After searching, you can clear the highlights with :noh
+-- After searching, you can clear the highlights with Esc
 
 -- Automatically enable spell checking
 -- Hover over a squigly line and press z= to see fix suggestions
