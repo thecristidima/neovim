@@ -1,5 +1,5 @@
 -- Colour scheme
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("gruvbox-material")
 
 -- Font
 vim.o.guifont = "Cascadia Code NF:h11"
