@@ -20,6 +20,85 @@ vim.api.nvim_create_user_command("WriteNoFormat", function()
     vim.cmd("noautocmd write")
 end, {})
 
+local function change_directory(path)
+    local directory = vim.fn.fnamemodify(vim.fn.expand(path), ":p")
+    if vim.fn.isdirectory(directory) == 0 then
+        vim.notify("Not a directory: " .. path, vim.log.levels.ERROR, { title = "Cd" })
+        return
+    end
+
+    vim.cmd.cd(vim.fn.fnameescape(directory))
+    vim.notify("cwd: " .. vim.fn.getcwd(), vim.log.levels.INFO, { title = "Cd" })
+end
+
+local function join_path(base, child)
+    if child == "." then
+        return base
+    end
+
+    return base:gsub("[/\\]+$", "") .. "/" .. child
+end
+
+local function list_directories(root)
+    local uv = vim.uv or vim.loop
+    local skip = {
+        [".git"] = true,
+        [".jj"] = true,
+    }
+    local directories = { "." }
+
+    local function scan(directory, relative)
+        local scanner = uv.fs_scandir(directory)
+        if not scanner then
+            return
+        end
+
+        while true do
+            local name, type = uv.fs_scandir_next(scanner)
+            if not name then
+                break
+            end
+
+            if type == "directory" and not skip[name] then
+                local child_relative = relative == "" and name or relative .. "/" .. name
+                table.insert(directories, child_relative)
+                scan(join_path(directory, name), child_relative)
+            end
+        end
+    end
+
+    scan(root, "")
+    table.sort(directories, function(left, right)
+        return left:lower() < right:lower()
+    end)
+
+    return directories
+end
+
+vim.api.nvim_create_user_command("Cd", function(opts)
+    local path = vim.trim(opts.args or "")
+    if path ~= "" then
+        change_directory(path)
+        return
+    end
+
+    local cwd = vim.fn.getcwd()
+    require("fzf-lua").fzf_exec(list_directories(cwd), {
+        prompt = "Cd> ",
+        actions = {
+            ["enter"] = function(selected)
+                if selected and selected[1] then
+                    change_directory(join_path(cwd, selected[1]))
+                end
+            end,
+        },
+    })
+end, {
+    nargs = "?",
+    complete = "dir",
+    desc = "Change directory",
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)
         local nmap = function(keys, func, desc)

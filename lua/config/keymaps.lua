@@ -149,10 +149,32 @@ map({ "n", "i", "x" }, "<C-p>", function()
         },
     })
 end, { desc = "Search files and symbols" })
+map("n", "<C-f>", "/", { desc = "Search current file" })
+map({ "i", "x" }, "<C-f>", "<Esc>/", { desc = "Search current file" })
+map({ "n", "i", "x" }, "<C-S-F>", "<cmd>FzfLua live_grep<cr>", { desc = "Find in files" })
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
 map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
 map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find buffers" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find keymaps" })
+
+local favorite_paths = {
+    { name = "Studio", path = "C:/git/Studio" },
+    { name = "Robot", path = "C:/git/Studio/Robot" },
+    { name = "Integration Tests", path = "C:/git/Studio/Robot/IntegrationTests" },
+}
+
+map("n", "<leader>fp", function()
+    vim.ui.select(favorite_paths, {
+        prompt = "Change directory",
+        format_item = function(item)
+            return item.name .. " - " .. item.path
+        end,
+    }, function(item)
+        if item then
+            vim.cmd.cd(vim.fn.fnameescape(item.path))
+        end
+    end)
+end, { desc = "Favorite paths" })
 
 -- buffer commands
 -- <leader>bb opens the buffer list (snacks picker); press Ctrl-x or dd to close the highlighted buffer
@@ -165,6 +187,9 @@ map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 
 -- project-wide diagnostics list (snacks picker)
 map("n", "<leader>cx", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics (project)" })
+
+-- Visual Studio Ctrl+Shift+F equivalent: find in files
+map("n", "<leader>cfs", "<cmd>FzfLua live_grep<cr>", { desc = "Find in files" })
 
 -- LSP symbol/call pickers
 map("n", "<leader>csd", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "Document symbols" })
