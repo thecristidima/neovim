@@ -2,7 +2,11 @@
 vim.cmd.colorscheme("gruvbox-material")
 
 -- Font
-vim.o.guifont = "Cascadia Code NF:h11"
+-- Common choices:
+--   SF Mono:h11 (SFMono Nerd Font)
+--   JetBrainsMono NFM:h11
+--   Cascadia Code NF:h11
+vim.o.guifont = "MonacoLigaturized Nerd Font:h11"
 
 -- Tab is 4 spaces, indenting is one tab
 vim.o.tabstop = 4
@@ -13,6 +17,14 @@ vim.o.smarttab = true
 
 -- Display line numbers
 vim.o.number = true
+
+-- Code folding
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.foldcolumn = "1"
 
 -- Display invisible characters
 vim.o.list = true

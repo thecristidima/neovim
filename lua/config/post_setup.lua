@@ -119,6 +119,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("<leader>cD", vim.lsp.buf.document_symbol, "Show symbol documentation")
         nmap("<S-F12>", vim.lsp.buf.references, "Find All References")
         nmap("<C-F12>", vim.lsp.buf.implementation, "Go to Implementation")
+        nmap("<C-LeftMouse>", function()
+            local pos = vim.fn.getmousepos()
+            if pos.winid == 0 or pos.line == 0 then
+                return
+            end
+
+            vim.api.nvim_set_current_win(pos.winid)
+            vim.api.nvim_win_set_cursor(pos.winid, { pos.line, pos.column - 1 })
+            vim.lsp.buf.implementation()
+        end, "Go to Implementation")
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         if client and client.name == "roslyn" then
