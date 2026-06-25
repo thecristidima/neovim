@@ -18,6 +18,9 @@ vim.o.smarttab = true
 -- Display line numbers
 vim.o.number = true
 
+-- Enable mouse support, including extra mouse buttons in supporting terminals/GUIs
+vim.o.mouse = "a"
+
 -- Code folding
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"

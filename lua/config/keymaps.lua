@@ -12,6 +12,10 @@ map({ "n", "v", "o" }, "<C-Right>", "w", { silent = true })
 
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight", silent = true })
 
+-- Mouse back/forward buttons navigate the jumplist
+map("n", "<X1Mouse>", "<C-o>", { desc = "Jump back" })
+map("n", "<X2Mouse>", "<C-i>", { desc = "Jump forward" })
+
 -- Resize window using ctrl+meta+arrow keys
 map("n", "<C-M-Down>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
 map("n", "<C-M-Up>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
@@ -109,6 +113,22 @@ local function ctrl_p_file_finder(opts, ctx)
     return require("snacks.picker.source.files").files(opts, file_ctx)
 end
 
+local function search_visual_selection()
+    local mode = vim.fn.mode()
+    local lines = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = mode })
+    local text = table.concat(lines, "\n")
+
+    if text == "" then
+        vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "n", false)
+        return
+    end
+
+    local pattern = "\\V" .. vim.fn.escape(text, "\\"):gsub("\n", "\\n")
+    vim.fn.setreg("/", pattern)
+    vim.o.hlsearch = true
+    vim.api.nvim_feedkeys(vim.keycode("<Esc>n"), "n", false)
+end
+
 -- Ctrl+P quick open: files plus workspace symbols
 map({ "n", "i", "x" }, "<C-p>", function()
     Snacks.picker({
@@ -150,7 +170,8 @@ map({ "n", "i", "x" }, "<C-p>", function()
     })
 end, { desc = "Search files and symbols" })
 map("n", "<C-f>", "/", { desc = "Search current file" })
-map({ "i", "x" }, "<C-f>", "<Esc>/", { desc = "Search current file" })
+map("i", "<C-f>", "<Esc>/", { desc = "Search current file" })
+map("x", "<C-f>", search_visual_selection, { desc = "Search selection" })
 map({ "n", "i", "x" }, "<C-S-F>", "<cmd>FzfLua live_grep<cr>", { desc = "Find in files" })
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
 map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
