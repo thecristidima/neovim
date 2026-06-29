@@ -99,6 +99,14 @@ end, {
     desc = "Change directory",
 })
 
+-- Show diagnostics as inline text to the right of the line, but not as
+-- E/W/I/H letters in the sign column (keeps the gutter clean for git signs).
+vim.diagnostic.config({ virtual_text = true, signs = false })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { link = "DiagnosticSignError" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { link = "DiagnosticSignWarn" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { link = "DiagnosticSignInfo" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { link = "DiagnosticSignHint" })
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)
         local nmap = function(keys, func, desc)
@@ -116,7 +124,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("<leader>cgd", vim.lsp.buf.definition, "Go to Definition")
         nmap("<leader>cgi", vim.lsp.buf.implementation, "Go to Implementation")
         nmap("<leader>cgr", vim.lsp.buf.references, "Go to References")
-        nmap("<leader>cD", vim.lsp.buf.document_symbol, "Show symbol documentation")
+        nmap("<leader>cD", vim.lsp.buf.hover, "Show symbol documentation")
         nmap("<S-F12>", vim.lsp.buf.references, "Find All References")
         nmap("<C-F12>", vim.lsp.buf.implementation, "Go to Implementation")
         nmap("<C-LeftMouse>", function()
@@ -146,14 +154,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
                 end
             end, "Roslyn: Show Solution")
         end
-
-        -- Show diagnostics as inline text to the right of the line, but not as
-        -- E/W/I/H letters in the sign column (keeps the gutter clean for git signs)
-        vim.diagnostic.config({ virtual_text = true, signs = false })
-        vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { link = "DiagnosticSignError" })
-        vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { link = "DiagnosticSignWarn" })
-        vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { link = "DiagnosticSignInfo" })
-        vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { link = "DiagnosticSignHint" })
     end,
 })
 
@@ -242,8 +242,8 @@ if IS_WINDOWS then
     vim.o.shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell"
     vim.o.shellcmdflag =
         [[-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;$PSDefaultParameterValues['Out-File:Encoding']='utf8';Remove-Alias -Force -ErrorAction SilentlyContinue tee;]]
-    vim.o.shellredir = [[2>&1 | %{ "$_" } | Out-File %s; exit $LastExitCode]]
-    vim.o.shellpipe = [[2>&1 | %{ "$_" } | tee %s; exit $LastExitCode]]
+    vim.o.shellredir = [[2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode]]
+    vim.o.shellpipe = [[2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode]]
     vim.o.shellquote = ""
     vim.o.shellxquote = ""
 end

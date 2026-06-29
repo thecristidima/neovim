@@ -38,7 +38,7 @@ return {
                             vim.api.nvim_command("LspInfo")
                         end,
                         color = function()
-                            local _, color = require("nvim-web-devicons").get_icon_cterm_color_by_filetype(
+                            local _, color = require("nvim-web-devicons").get_icon_color_by_filetype(
                                 vim.bo.filetype
                             )
                             return { fg = color }

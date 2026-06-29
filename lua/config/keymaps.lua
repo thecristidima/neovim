@@ -57,7 +57,8 @@ map("i", "<C-Del>", '<C-o>"_de', { desc = "Delete Word Forward" })
 map("i", "<C-x>", "<C-o>dd", { desc = "Cut current line" })
 
 -- Ctrl+C to copy selection
-map({ "n", "i" }, "<C-c>", "yy", { desc = "Copy line" })
+map("n", "<C-c>", "yy", { desc = "Copy line" })
+map("i", "<C-c>", "<C-o>yy", { desc = "Copy line" })
 map("v", "<C-c>", "y", { desc = "Copy selection" })
 
 -- Ctrl+V to paste
@@ -96,27 +97,6 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 -- neo-tree
 map("n", "<leader>fe", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 
-local function ctrl_p_file_finder(opts, ctx)
-    local filter = ctx.filter:clone()
-    local search = vim.trim(filter.search or "")
-    local has_glob = search:find("*", 1, true)
-        or search:find("?", 1, true)
-        or search:find("[", 1, true)
-        or search:find("]", 1, true)
-        or search:find("{", 1, true)
-        or search:find("}", 1, true)
-    local has_path = search:find("/", 1, true) or search:find("\\", 1, true)
-    local has_extra_args = search:find("%s%-%-%s")
-
-    if search ~= "" and not has_glob and not has_path and not has_extra_args then
-        filter.search = "*" .. search .. "*"
-    end
-
-    local file_ctx = ctx:clone(opts)
-    file_ctx.filter = filter
-    return require("snacks.picker.source.files").files(opts, file_ctx)
-end
-
 local function search_visual_selection()
     local mode = vim.fn.mode()
     local lines = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = mode })
@@ -141,11 +121,7 @@ map({ "n", "i", "x" }, "<C-p>", function()
         supports_live = true,
         workspace = true,
         multi = {
-            {
-                source = "files",
-                cmd = "rg",
-                finder = ctrl_p_file_finder,
-            },
+            "files",
             "lsp_workspace_symbols",
         },
         filter = {

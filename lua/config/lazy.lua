@@ -32,6 +32,7 @@ require("lazy").setup({
     install = { colorscheme = { "gruvbox-material" } },
     -- automatically check for plugin updates
     checker = { enabled = false },
+    rocks = { enabled = false },
     performance = {
         rtp = {
             -- Disable unused built-in runtime plugins to load fewer files at startup.

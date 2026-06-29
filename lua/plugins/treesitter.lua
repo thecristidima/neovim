@@ -4,6 +4,16 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     main = "nvim-treesitter.configs", -- send opts to the setup() that actually reads them
     opts = {
+        ensure_installed = {
+            "c_sharp",
+            "json",
+            "lua",
+            "markdown",
+            "markdown_inline",
+            "regex",
+            "xml",
+            "yaml",
+        },
         auto_install = false,
         sync_install = false,
 

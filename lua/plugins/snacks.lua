@@ -3,7 +3,9 @@ return {
     priority = 1000,
     lazy = false,
     opts = {
+        bigfile = { enabled = true },
         indent = { enabled = true },
+        quickfile = { enabled = true },
         scroll = { enabled = true },
         -- Native Lua picker - used for the buffer list, since fzf-lua's buffers
         -- picker won't navigate on this setup (fzf-lua still handles files/grep)

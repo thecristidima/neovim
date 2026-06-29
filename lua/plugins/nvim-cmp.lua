@@ -7,9 +7,23 @@ return {
         { "hrsh7th/cmp-buffer" },
     },
 
+    init = function()
+        local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+        if ok then
+            vim.lsp.config("*", {
+                capabilities = cmp_nvim_lsp.default_capabilities(),
+            })
+        end
+    end,
+
     config = function()
         local cmp = require("cmp")
         cmp.setup({
+            snippet = {
+                expand = function(args)
+                    vim.snippet.expand(args.body)
+                end,
+            },
             window = {
                 completion = cmp.config.window.bordered(),
                 documentation = cmp.config.window.bordered(),
