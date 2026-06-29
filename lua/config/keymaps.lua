@@ -10,6 +10,10 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = tru
 map({ "n", "v", "o" }, "<C-Left>", "b", { silent = true })
 map({ "n", "v", "o" }, "<C-Right>", "w", { silent = true })
 
+-- Ctrl+up/down scrolls the buffer while keeping the cursor in place
+map("n", "<C-Up>", "<C-y>", { desc = "Scroll Up", silent = true })
+map("n", "<C-Down>", "<C-e>", { desc = "Scroll Down", silent = true })
+
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight", silent = true })
 
 -- Mouse back/forward buttons navigate the jumplist
