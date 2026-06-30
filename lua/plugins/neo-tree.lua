@@ -6,4 +6,9 @@ return {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
     },
+    opts = {
+        filesystem = {
+            hijack_netrw_behavior = "disabled",
+        },
+    },
 }

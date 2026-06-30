@@ -5,7 +5,7 @@ return {
     opts = {
         bigfile = { enabled = true },
         indent = { enabled = true },
-        quickfile = { enabled = true },
+        quickfile = { enabled = false },
         scroll = { enabled = true },
         -- Native Lua picker - used for the buffer list, since fzf-lua's buffers
         -- picker won't navigate on this setup (fzf-lua still handles files/grep)
