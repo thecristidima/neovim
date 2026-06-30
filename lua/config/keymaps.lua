@@ -14,6 +14,12 @@ map({ "n", "v", "o" }, "<C-Right>", "w", { silent = true })
 map("n", "<C-Up>", "<C-y>", { desc = "Scroll Up", silent = true })
 map("n", "<C-Down>", "<C-e>", { desc = "Scroll Down", silent = true })
 
+-- Ctrl+Shift+arrows move focus between windows
+map("n", "<C-S-Left>", "<C-w>h", { desc = "Focus left window", silent = true })
+map("n", "<C-S-Down>", "<C-w>j", { desc = "Focus lower window", silent = true })
+map("n", "<C-S-Up>", "<C-w>k", { desc = "Focus upper window", silent = true })
+map("n", "<C-S-Right>", "<C-w>l", { desc = "Focus right window", silent = true })
+
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight", silent = true })
 
 -- Mouse back/forward buttons navigate the jumplist
