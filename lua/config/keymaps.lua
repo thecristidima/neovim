@@ -54,7 +54,9 @@ map("i", "<C-h>", "<C-w>", { desc = "Delete Word Backwards" })
 map("i", "<C-Del>", '<C-o>"_de', { desc = "Delete Word Forward" })
 
 -- Ctrl+X to cut current line
+map("n", "<C-x>", "dd", { desc = "Cut current line" })
 map("i", "<C-x>", "<C-o>dd", { desc = "Cut current line" })
+map("x", "<C-x>", "d", { desc = "Cut selection" })
 
 -- Ctrl+C to copy selection
 map("n", "<C-c>", "yy", { desc = "Copy line" })
@@ -159,8 +161,8 @@ map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find bu
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find keymaps" })
 
 local favorite_paths = {
-    { name = "Studio", path = "C:/git/Studio" },
-    { name = "Robot", path = "C:/git/Studio/Robot" },
+    { name = "Studio",            path = "C:/git/Studio" },
+    { name = "Robot",             path = "C:/git/Studio/Robot" },
     { name = "Integration Tests", path = "C:/git/Studio/Robot/IntegrationTests" },
 }
 
@@ -208,6 +210,7 @@ map("n", "]]", function() Snacks.words.jump(vim.v.count1) end, { desc = "Next re
 map("n", "[[", function() Snacks.words.jump(-vim.v.count1) end, { desc = "Prev reference" })
 
 -- view noice messages (full command output / errors that scrolled past)
+map("n", "<leader>Nd", "<cmd>Noice dismiss<cr>", { desc = "Dismiss messages" })
 map("n", "<leader>Nn", "<cmd>Noice pick<cr>", { desc = "Message history" })
 map("n", "<leader>Nl", "<cmd>Noice last<cr>", { desc = "Last message" })
 

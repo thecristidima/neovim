@@ -139,20 +139,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end, "Go to Implementation")
 
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if client and client.name == "roslyn" then
-            nmap("<leader>cRt", "<cmd>Roslyn target<cr>", "Roslyn: Select Solution")
-            nmap("<leader>cRr", function()
-                vim.cmd.lsp("restart", "roslyn")
-            end, "Roslyn: Restart")
+        if client and client.name == "easy_dotnet" then
+            nmap("<leader>cRt", "<cmd>Dotnet solution select<cr>", "Dotnet: Select Solution")
+            nmap("<leader>cRr", "<cmd>Dotnet lsp restart<cr>", "Dotnet: Restart Roslyn")
             nmap("<leader>cRs", function()
-                local solution = vim.g.roslyn_nvim_selected_solution
+                local ok, current_solution = pcall(require, "easy-dotnet.current_solution")
+                local solution = ok and current_solution.try_get_selected_solution() or nil
 
                 if solution then
-                    vim.notify(vim.fn.fnamemodify(solution, ":."), vim.log.levels.INFO, { title = "Roslyn solution" })
+                    vim.notify(vim.fn.fnamemodify(solution, ":."), vim.log.levels.INFO, { title = "Dotnet solution" })
                 else
-                    vim.notify("No Roslyn solution selected", vim.log.levels.WARN, { title = "Roslyn solution" })
+                    vim.notify("No Dotnet solution selected", vim.log.levels.WARN, { title = "Dotnet solution" })
                 end
-            end, "Roslyn: Show Solution")
+            end, "Dotnet: Show Solution")
         end
     end,
 })

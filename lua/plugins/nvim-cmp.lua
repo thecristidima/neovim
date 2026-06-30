@@ -19,6 +19,13 @@ return {
     config = function()
         local cmp = require("cmp")
         cmp.setup({
+            completion = {
+                get_trigger_characters = function(trigger_characters)
+                    return vim.tbl_filter(function(char)
+                        return char ~= "("
+                    end, trigger_characters)
+                end,
+            },
             snippet = {
                 expand = function(args)
                     vim.snippet.expand(args.body)

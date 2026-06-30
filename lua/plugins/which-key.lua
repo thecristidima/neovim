@@ -18,7 +18,7 @@ return {
                 { "<leader>q",  group = "quit" },
                 { "<leader>c",  group = "code" },
                 { "<leader>cg", group = "go to" },
-                { "<leader>cR", group = "Roslyn" },
+                { "<leader>cR", group = "Dotnet" },
                 { "<leader>cs", group = "symbols" },
                 { "<leader>ct", group = "test" },
                 {

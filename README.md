@@ -8,5 +8,7 @@ External tools that need to be installed to make everything work:
 - `win32yank`
 - `node` / `npm`
 - `.NET SDK` / `dotnet`
+- `EasyDotnet` - .NET global tool used by `easy-dotnet.nvim`:
+  `dotnet tool install -g EasyDotnet`
 - `roslyn-language-server` - via Mason or as a .NET global tool:
   `dotnet tool install -g roslyn-language-server --prerelease`
