@@ -231,6 +231,21 @@ vim.opt.spelllang = "en_gb"
 
 -- Use system clipboard
 -- TODO Should this be in editor.lua?
+if IS_WSL then
+    vim.g.clipboard = {
+        name = "win32yank-wsl",
+        copy = {
+            ["+"] = "win32yank.exe -i --crlf",
+            ["*"] = "win32yank.exe -i --crlf",
+        },
+        paste = {
+            ["+"] = "win32yank.exe -o --lf",
+            ["*"] = "win32yank.exe -o --lf",
+        },
+        cache_enabled = 0,
+    }
+end
+
 vim.opt.clipboard = "unnamedplus"
 
 -- On Windows use PowerShell Core (pwsh) as the shell, falling back to
