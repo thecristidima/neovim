@@ -28,11 +28,5 @@ return {
     },
     config = function(_, opts)
         require("easy-dotnet").setup(opts)
-
-        vim.schedule(function()
-            pcall(function()
-                require("easy-dotnet.roslyn.lsp").start()
-            end)
-        end)
     end,
 }
