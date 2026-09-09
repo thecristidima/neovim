@@ -1,19 +1,14 @@
 return {
     "GustavEikaas/easy-dotnet.nvim",
     cmd = "Dotnet",
+    -- Patterns rather than `ft`, deliberately: loading this spawns the dotnet
+    -- server and Roslyn (~1.3s), and `ft = "xml"` would trigger that on every
+    -- XML and XAML file, not just project files.
     event = {
-        "BufReadPre *.cs",
-        "BufNewFile *.cs",
-        "BufReadPre *.csproj",
-        "BufNewFile *.csproj",
-        "BufReadPre *.sln",
-        "BufNewFile *.sln",
-        "BufReadPre *.slnx",
-        "BufNewFile *.slnx",
-        "BufReadPre *.cshtml",
-        "BufNewFile *.cshtml",
-        "BufReadPre *.razor",
-        "BufNewFile *.razor",
+        {
+            event = { "BufReadPre", "BufNewFile" },
+            pattern = { "*.cs", "*.csproj", "*.sln", "*.slnx", "*.cshtml", "*.razor" },
+        },
     },
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -26,7 +21,4 @@ return {
             neotest_integration = true,
         },
     },
-    config = function(_, opts)
-        require("easy-dotnet").setup(opts)
-    end,
 }

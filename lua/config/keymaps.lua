@@ -160,11 +160,10 @@ end, { desc = "Search files and symbols" })
 map("n", "<C-f>", "/", { desc = "Search current file" })
 map("i", "<C-f>", "<Esc>/", { desc = "Search current file" })
 map("x", "<C-f>", search_visual_selection, { desc = "Search selection" })
-map({ "n", "i", "x" }, "<C-S-F>", "<cmd>FzfLua live_grep<cr>", { desc = "Find in files" })
-map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
-map("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search in all files" })
-map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find buffers" })
-map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", { desc = "Find keymaps" })
+map({ "n", "i", "x" }, "<C-S-F>", function() Snacks.picker.grep() end, { desc = "Find in files" })
+map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Find files" })
+map("n", "<leader>fs", function() Snacks.picker.grep() end, { desc = "Search in all files" })
+map("n", "<leader>fk", function() Snacks.picker.keymaps() end, { desc = "Find keymaps" })
 
 local favorite_paths = {
     { name = "Studio",            path = "C:/git/Studio" },
@@ -197,14 +196,11 @@ map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 -- project-wide diagnostics list (snacks picker)
 map("n", "<leader>cx", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics (project)" })
 
--- Visual Studio Ctrl+Shift+F equivalent: find in files
-map("n", "<leader>cfs", "<cmd>FzfLua live_grep<cr>", { desc = "Find in files" })
-
 -- LSP symbol/call pickers
-map("n", "<leader>csd", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "Document symbols" })
-map("n", "<leader>csw", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Workspace symbols" })
-map("n", "<leader>csi", "<cmd>FzfLua lsp_incoming_calls<cr>", { desc = "Incoming calls" })
-map("n", "<leader>cso", "<cmd>FzfLua lsp_outgoing_calls<cr>", { desc = "Outgoing calls" })
+map("n", "<leader>csd", function() Snacks.picker.lsp_symbols() end, { desc = "Document symbols" })
+map("n", "<leader>csw", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "Workspace symbols" })
+map("n", "<leader>csi", function() Snacks.picker.lsp_incoming_calls() end, { desc = "Incoming calls" })
+map("n", "<leader>cso", function() Snacks.picker.lsp_outgoing_calls() end, { desc = "Outgoing calls" })
 
 -- toggle comment on the current line (normal) or selection (visual)
 -- wraps the built-in gcc / gc so it's discoverable under <leader>c

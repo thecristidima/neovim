@@ -24,9 +24,7 @@ vim.o.mouse = "a"
 -- Code folding
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
-vim.o.foldenable = true
 vim.o.foldcolumn = "1"
 vim.opt.fillchars:append({
     foldopen = "▼",
@@ -76,3 +74,12 @@ vim.o.visualbell = false
 
 -- Rounded borders on floating windows (LSP hover, diagnostics float, etc.)
 vim.o.winborder = "rounded"
+
+-- Neovim has no built-in detection for .xaml. Treat it as XML so it picks up
+-- the xml treesitter parser and the lemminx language server, which only
+-- advertises the xml/xsd/xsl/xslt/svg filetypes.
+vim.filetype.add({
+    extension = {
+        xaml = "xml",
+    },
+})

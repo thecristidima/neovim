@@ -1,5 +1,5 @@
 local function normalize_path(path)
-    return path and path:gsub("\\", "/"):gsub("/+$", "")
+    return path and vim.fs.normalize(path)
 end
 
 local function neotest_path(path)

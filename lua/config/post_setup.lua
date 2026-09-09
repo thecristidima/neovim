@@ -40,34 +40,27 @@ local function join_path(base, child)
 end
 
 local function list_directories(root)
-    local uv = vim.uv or vim.loop
-    local skip = {
-        [".git"] = true,
-        [".jj"] = true,
-    }
+    local function is_skipped(path)
+        local name = vim.fs.basename(path)
+
+        return name == ".git" or name == ".jj"
+    end
+
     local directories = { "." }
 
-    local function scan(directory, relative)
-        local scanner = uv.fs_scandir(directory)
-        if not scanner then
-            return
-        end
-
-        while true do
-            local name, type = uv.fs_scandir_next(scanner)
-            if not name then
-                break
-            end
-
-            if type == "directory" and not skip[name] then
-                local child_relative = relative == "" and name or relative .. "/" .. name
-                table.insert(directories, child_relative)
-                scan(join_path(directory, name), child_relative)
-            end
+    -- vim.fs.dir yields paths relative to root; returning false from `skip`
+    -- stops it descending, but the directory itself is still yielded.
+    for name, type in vim.fs.dir(root, {
+        depth = math.huge,
+        skip = function(directory)
+            return not is_skipped(directory)
+        end,
+    }) do
+        if type == "directory" and not is_skipped(name) then
+            table.insert(directories, name)
         end
     end
 
-    scan(root, "")
     table.sort(directories, function(left, right)
         return left:lower() < right:lower()
     end)
@@ -83,16 +76,11 @@ vim.api.nvim_create_user_command("Cd", function(opts)
     end
 
     local cwd = vim.fn.getcwd()
-    require("fzf-lua").fzf_exec(list_directories(cwd), {
-        prompt = "Cd> ",
-        actions = {
-            ["enter"] = function(selected)
-                if selected and selected[1] then
-                    change_directory(join_path(cwd, selected[1]))
-                end
-            end,
-        },
-    })
+    vim.ui.select(list_directories(cwd), { prompt = "Change directory" }, function(choice)
+        if choice then
+            change_directory(join_path(cwd, choice))
+        end
+    end)
 end, {
     nargs = "?",
     complete = "dir",
@@ -125,6 +113,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("<leader>cgi", vim.lsp.buf.implementation, "Go to Implementation")
         nmap("<leader>cgr", vim.lsp.buf.references, "Go to References")
         nmap("<leader>cD", vim.lsp.buf.hover, "Show symbol documentation")
+        -- Parameter info, Visual Studio's Ctrl+Shift+Space. Neovim's own default
+        -- for this is Ctrl-S in insert mode, which is taken by save. Windows
+        -- Terminal needs a sendInput entry for "[32;6u" to deliver it,
+        -- the same trick as Ctrl+Space in nvim-cmp.lua.
+        vim.keymap.set({ "i", "n" }, "<C-S-Space>", vim.lsp.buf.signature_help,
+            { buffer = ev.buf, desc = "LSP: Parameter info" })
         nmap("<S-F12>", vim.lsp.buf.references, "Find All References")
         nmap("<C-F12>", vim.lsp.buf.implementation, "Go to Implementation")
         nmap("<C-LeftMouse>", function()
@@ -200,7 +194,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Reload files that changed on disk (e.g. after a git checkout in lazygit).
 -- autoread is on by default; the checktime triggers the actual re-read.
-vim.o.autoread = true
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
     command = "checktime",
 })

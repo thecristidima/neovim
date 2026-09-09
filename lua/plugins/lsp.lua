@@ -5,7 +5,7 @@ return {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
         },
-        ft = { "lua", "json", "jsonc", "xml", "xaml", "yaml", "yml" },
+        ft = { "lua", "json", "jsonc", "xml", "yaml" },
         config = function()
             require("mason").setup({
                 registries = {
